@@ -10,8 +10,8 @@
 #define FECHA_PAR 7
 #define FIM 8
 
-int simbolo_lido; // simbolo lido não vai ler o caracter >>> vai ler o CÓDIGO TOKEN (MAIS, MULTI, POTENCIA...)
-char linha[300]; //p guardar linha digitada
+int simbolo_lido;
+char linha[300];
 int posicao = 0;
 
 void expr(void);
@@ -85,14 +85,14 @@ void erro(const char *mensagem){
     printf("Erro sintatico: %s\n", mensagem);
     printf("\n===============================\n");
     
-    exit(1); //indicando q teve erro na execução do cod, o valor 1 é um cod de saída que indica falha
+    exit(1); //indicando que houve erro
 }
 
 void obtenha_simbolo(void){
     
     //pular espaços em branco, primeiramente
     while(linha[posicao] == ' ' || linha[posicao] == '\t' || linha[posicao] == '\n'){
-        posicao++; //avança p o proximo caractere
+        posicao++;
     }
 
     //identificar o fim
@@ -101,10 +101,10 @@ void obtenha_simbolo(void){
         return;
     }
 
-    // identificando operadores + parenteses
+    // identificando operadores e parenteses
     if(linha[posicao] == '+'){
         simbolo_lido = MAIS;
-        posicao++; // avançando para o prox caracter
+        posicao++;
         return;
     }
     if(linha[posicao] == '('){
@@ -118,7 +118,8 @@ void obtenha_simbolo(void){
         return;
     }
 
-    if(linha[posicao] == '*'){          // multi ou potencia
+    // multi ou potencia
+    if(linha[posicao] == '*'){
         posicao++;
         if(linha[posicao] == '*'){
             simbolo_lido = POTENCIA;
@@ -156,7 +157,7 @@ void obtenha_simbolo(void){
 int main(){
     
     printf("\n===============================\n");
-    printf("ANALISADOR LEXICO E SINTATICO\n");
+    printf("ANALISADOR SINTATICO e LEXICO\n");
     printf("===============================\n");
     printf("\nDigite uma expressao: ");
     fgets(linha, sizeof(linha), stdin);
