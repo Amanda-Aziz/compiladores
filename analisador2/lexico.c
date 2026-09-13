@@ -19,7 +19,8 @@ void termo(void);
 void fator(void);
 void primario(void);
 
-void erro(const char *mensagem);
+void erro_sintatico(const char *mensagem);
+void erro_lexico( char caractere);
 void obtenha_simbolo(void);
 
 // ================================================================================ METODOS DAS EXPRESSOES
@@ -31,7 +32,7 @@ void ANALISADOR_SINTATICO(){
         printf("Expressao valida.");
         printf("\n===============================\n");
     } else {
-        erro("Erro na analise sintatica...");
+        erro_sintatico("Erro na analise sintatica...");
     }
 }
 
@@ -70,19 +71,26 @@ void primario(void){
         obtenha_simbolo();
         expr();
         if(simbolo_lido != FECHA_PAR){
-            erro("ERRO! Parentese nao fechado.");
+            erro_sintatico("ERRO! Parentese nao fechado.");
         } else{
             obtenha_simbolo();
         }
     } else{
-        erro("Simbolo inesperado...");
+        erro_sintatico("Simbolo inesperado...");
     }
 }
 
 // ================================================================================ METODOS erro e obtenha simbolo
 
-void erro(const char *mensagem){
+void erro_sintatico(const char *mensagem){
     printf("Erro sintatico: %s\n", mensagem);
+    printf("\n===============================\n");
+    
+    exit(1); //indicando que houve erro
+}
+
+void erro_lexico(char caractere){
+    printf("Erro lexico: caractere especial '%c'\n", caractere);
     printf("\n===============================\n");
     
     exit(1); //indicando que houve erro
@@ -149,7 +157,7 @@ void obtenha_simbolo(void){
         simbolo_lido = IDENT;
         return;        
     }   
-    erro("Simbolo invalido na entrada");
+    erro_lexico(linha[posicao]);
 }
 
 // ================================================================================
