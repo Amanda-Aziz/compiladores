@@ -44,3 +44,11 @@ texto digitado → análise léxica (tokens) → análise sintática → express
 gcc sintatico.c -o s && ./s
 gcc lexico.c -o l && ./l
 ```
+# Desenvolvedores
+
+Dupla responsável pelo desenvolvimento do trabalho.
+
+| [<img src="https://github.com/Amanda-Aziz.png" width="115"><br><sub>Amanda Aziz</sub>](https://github.com/Amanda-Aziz) | [<img src="https://github.com/Sofiafs.png" width="115"><br><sub>Sofia Farias</sub>](https://github.com/Sofiafs) |
+| :---: | :---: |
+
+---
