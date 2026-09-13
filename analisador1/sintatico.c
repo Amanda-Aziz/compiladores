@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 
 #define IDENT 1
 #define NUMERO 2
@@ -11,14 +11,14 @@
 #define FIM 8
 
 // variaveis globais
-char linha[300];
 int simbolo_lido; // token
 int *tokens; //vetor de tokens da entrada
 int posicao_token;
-
+int houve_erro;
 
 void erro(const char *mensagem);
 void obtenha_simbolo(void);
+void imprime_simbolo(int simbolo);
 
 void expr(void);
 void termo(void);
@@ -27,6 +27,25 @@ void primario(void);
 
 // ================================================================================
 
+void ANALISADOR_SINTATICO(){
+    posicao_token = 0;
+    houve_erro = 0;
+
+    obtenha_simbolo();
+    expr();
+
+    if(houve_erro){
+        return;
+    }
+
+    if(simbolo_lido == FIM){
+        printf("Expressao valida.");
+        printf("\n===============================\n");
+    } else {
+        erro("Erro na analise sintatica...");
+    }
+}
+
 void obtenha_simbolo(void){
     simbolo_lido = tokens[posicao_token];
     if(tokens[posicao_token] != FIM){
@@ -34,34 +53,71 @@ void obtenha_simbolo(void){
     }
 }
 
+void imprime_simbolo(int simbolo){
+    if(simbolo == IDENT){
+        printf("IDENT ");
+    } else if( simbolo == NUMERO){
+        printf("NUMERO ");
+    } else if( simbolo == MAIS){
+        printf("MAIS ");
+    } else if( simbolo == MULTI){
+        printf("MULTI ");
+    } else if( simbolo == POTENCIA){
+        printf("POTENCIA ");
+    } else if( simbolo == ABRE_PAR){
+        printf("ABRE_PAR ");
+    } else if( simbolo == FECHA_PAR){
+        printf("FECHA_PAR ");
+    } else if( simbolo == FIM){
+        printf("FIM ");
+    }
+}
+
 void erro(const char *mensagem){
     printf("Erro sintatico: %s\n", mensagem);
     printf("\n===============================\n");
-    exit(1); //indicando q teve erro na execução do cod
+    houve_erro = 1; 
 }
-
 
 // ================================================================================ METODOS DAS EXPRESSOES
 
 void expr(void){
+    if(houve_erro){
+        return;
+    }
     termo();
-    if(simbolo_lido == MAIS){ 
+    if(houve_erro){
+        return;
+    }
+    if(simbolo_lido == MAIS){
         obtenha_simbolo();
         expr();
     }
 }
 
 void termo(void){
+    if(houve_erro){
+        return;
+    }
     fator();
-    if(simbolo_lido == MULTI){ 
+    if(houve_erro){
+        return;
+    }
+    if(simbolo_lido == MULTI){
         obtenha_simbolo();
         termo();
     }
 }
 
 void fator(void){
+    if(houve_erro){
+        return;
+    }
     primario();
-    if(simbolo_lido == POTENCIA){ 
+    if(houve_erro){
+        return;
+    }
+    if(simbolo_lido == POTENCIA){
         obtenha_simbolo();
         fator();
     }
@@ -88,31 +144,42 @@ void primario(void){
 }
 
 // ================================================================================
+void roda_teste(int numero, int tokens_teste[]){
 
-void ANALISADOR_SINTATICO(){
-    obtenha_simbolo();
-    expr();
-    if(simbolo_lido == FIM){
-        printf("Expressao valida.");
-        printf("\n===============================\n");
-    } else {
-        erro("Erro na analise sintatica...");
-    }
+    printf("\n--- Teste %d ---\n", numero);
+    tokens = tokens_teste;
+    printf("Resultado: ");
+    ANALISADOR_SINTATICO();
 }
 
-// ================================================================================
-
-int main(){   // pelo q eu li nao recebe pelo teclado digitado pelo usuario, e sim ja definimos na main os testes saca?
-                // falta isso eu acho, dps da uma bizoiada pfv
-    
+int main(){
+   
     printf("\n===============================\n");
     printf("ANALISADOR SINTATICO\n");
     printf("===============================\n");
-    printf("\nDigite uma expressao: ");
-    fgets(linha, sizeof(linha), stdin);
-    printf("\n");
 
-    ANALISADOR_SINTATICO();
+    int teste1[] = {IDENT, FIM};
+    int teste2[] = {IDENT, MAIS, NUMERO, FIM};
+    int teste3[] = {IDENT, MULTI, NUMERO, FIM};
+    int teste4[] = {IDENT, POTENCIA, NUMERO, FIM};
+    int teste5[] = {ABRE_PAR, IDENT, MAIS, NUMERO, FECHA_PAR, FIM};
+    int teste6[] = {IDENT, MAIS, NUMERO, MULTI, IDENT, FIM};
+    int teste7[] = {IDENT, MAIS, FIM};
+    int teste8[] = {ABRE_PAR, IDENT, MAIS, NUMERO, FIM};
+    int teste9[] = {IDENT, MULTI, MAIS, NUMERO, FIM};
+    int teste10[] = {MAIS, IDENT, FIM};
+
+    roda_teste(1, teste1);
+    roda_teste(2, teste2);
+    roda_teste(3, teste3);
+    roda_teste(4, teste4);
+    roda_teste(5, teste5);
+    roda_teste(6, teste6);
+    roda_teste(7, teste7);
+    roda_teste(8, teste8);
+    roda_teste(9, teste9);
+    roda_teste(10, teste10);
+    
     return 0;
 
 }
