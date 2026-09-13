@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+// #include <stdlib.h>   //optamos por trocar a função de erro() pela variável houve_erro
 
 #define IDENT 1
 #define NUMERO 2
@@ -10,27 +10,24 @@
 #define FECHA_PAR 7
 #define FIM 8
 
-// variaveis globais
-int simbolo_lido; // token
-int *tokens; //vetor de tokens da entrada
+// =========================================================== VARIÁVEIS GLOBAIS
+int simbolo_lido; // guardar o token atual
+int *tokens; //ponteiro para o vetor de tokens da entrada
 int posicao_token;
 int houve_erro;
 
 void erro(const char *mensagem);
 void obtenha_simbolo(void);
-void imprime_simbolo(int simbolo);
 
 void expr(void);
 void termo(void);
 void fator(void);
 void primario(void);
-
-// ================================================================================
+// ===========================================================
 
 void ANALISADOR_SINTATICO(){
     posicao_token = 0;
     houve_erro = 0;
-
     obtenha_simbolo();
     expr();
 
@@ -53,33 +50,13 @@ void obtenha_simbolo(void){
     }
 }
 
-void imprime_simbolo(int simbolo){
-    if(simbolo == IDENT){
-        printf("IDENT ");
-    } else if( simbolo == NUMERO){
-        printf("NUMERO ");
-    } else if( simbolo == MAIS){
-        printf("MAIS ");
-    } else if( simbolo == MULTI){
-        printf("MULTI ");
-    } else if( simbolo == POTENCIA){
-        printf("POTENCIA ");
-    } else if( simbolo == ABRE_PAR){
-        printf("ABRE_PAR ");
-    } else if( simbolo == FECHA_PAR){
-        printf("FECHA_PAR ");
-    } else if( simbolo == FIM){
-        printf("FIM ");
-    }
-}
-
 void erro(const char *mensagem){
     printf("Erro sintatico: %s\n", mensagem);
     printf("\n===============================\n");
     houve_erro = 1; 
 }
 
-// ================================================================================ METODOS DAS EXPRESSOES
+// =========================================================== MÉTODOS DAS EXPRESSOES
 
 void expr(void){
     if(houve_erro){
@@ -143,9 +120,9 @@ void primario(void){
     }
 }
 
-// ================================================================================
-void roda_teste(int numero, int tokens_teste[]){
+// ===========================================================
 
+void roda_teste(int numero, int tokens_teste[]){
     printf("\n--- Teste %d ---\n", numero);
     tokens = tokens_teste;
     printf("Resultado: ");
@@ -181,5 +158,4 @@ int main(){
     roda_teste(10, teste10);
     
     return 0;
-
 }
