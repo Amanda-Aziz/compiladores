@@ -1,4 +1,5 @@
 # Mini-Projetos: Analisadores Léxico e Sintático
+> Status: ✅ Finalizado
 
 Este repositório contém duas implementações em C relacionadas às etapas
 iniciais de um compilador: **análise léxica** e **análise sintática**, para
