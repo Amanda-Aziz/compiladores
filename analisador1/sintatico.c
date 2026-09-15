@@ -12,7 +12,7 @@
 
 // =========================================================== VARIÁVEIS GLOBAIS
 int simbolo_lido; // guardar o token atual
-int *tokens; //ponteiro para o vetor de tokens da entrada
+int *tokens; //ponteiro 
 int posicao_token;
 int houve_erro;
 
